@@ -36,6 +36,78 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     return categories
   }
 
+  function steamPressure(hR: number, T: number): number {
+    return (hR / 100) * 6.105 * Math.exp((12.27 * T) / (237.7 + T))
+  }
+
+  function getMinFeelTemp(): number[] {
+    const minFeelTemp: number[] = []
+    timeseries.value.forEach((item: TTimeSeries) => {
+      if (item.data.next_6_hours) {
+        minFeelTemp.push(
+          Math.round(
+            item.data.next_6_hours.details.air_temperature_min +
+              0.33 *
+                steamPressure(
+                  item.data.instant.details.relative_humidity,
+                  item.data.next_6_hours.details.air_temperature_min
+                ) -
+              0.7 * item.data.instant.details.wind_speed -
+              4
+          )
+        )
+        return minFeelTemp
+      }
+      minFeelTemp.push(
+        Math.round(
+          item.data.instant.details.air_temperature +
+            0.33 *
+              steamPressure(
+                item.data.instant.details.relative_humidity,
+                item.data.instant.details.air_temperature
+              ) -
+            0.7 * item.data.instant.details.wind_speed -
+            4
+        )
+      )
+    })
+    return minFeelTemp
+  }
+
+  function getMaxFeelTemp(): number[] {
+    const maxFeelTemp: number[] = []
+    timeseries.value.forEach((item: TTimeSeries) => {
+      if (item.data.next_6_hours) {
+        maxFeelTemp.push(
+          Math.round(
+            item.data.next_6_hours.details.air_temperature_max +
+              0.33 *
+                steamPressure(
+                  item.data.instant.details.relative_humidity,
+                  item.data.next_6_hours.details.air_temperature_max
+                ) -
+              0.7 * item.data.instant.details.wind_speed -
+              4
+          )
+        )
+        return maxFeelTemp
+      }
+      maxFeelTemp.push(
+        Math.round(
+          item.data.instant.details.air_temperature +
+            0.33 *
+              steamPressure(
+                item.data.instant.details.relative_humidity,
+                item.data.instant.details.air_temperature
+              ) -
+            0.7 * item.data.instant.details.wind_speed -
+            4
+        )
+      )
+    })
+    return maxFeelTemp
+  }
+
   function getMinTemp(): number[] {
     const minTemp: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
@@ -111,7 +183,6 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         margin: 0,
         labels: {
           align: 'left',
-          format: '',
           style: {
             color: '#FFFFFF',
           },
@@ -156,9 +227,35 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         color: '#ec644b',
       },
       {
+        name: 'Maximálna pocitová teplota',
+        data: getMaxFeelTemp(),
+        type: 'spline',
+        zIndex: '5',
+        marker: {
+          enabled: false,
+        },
+        tooltip: {
+          valueSuffix: '°C',
+        },
+        color: '#ec644b',
+      },
+      {
         name: 'Minimálna teplota',
         data: getMinTemp(),
         type: 'column',
+        marker: {
+          enabled: false,
+        },
+        tooltip: {
+          valueSuffix: '°C',
+        },
+        color: '#1e8bc3',
+      },
+      {
+        name: 'Minimálna pocitová teplota',
+        data: getMinFeelTemp(),
+        type: 'spline',
+        zIndex: '5',
         marker: {
           enabled: false,
         },
