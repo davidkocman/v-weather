@@ -1,11 +1,10 @@
 import TWeatherData from '@/types/TWeatherData'
-import TLatLong from '@/types/TModel'
 import MWeatherData from '@/model/MWeatherData'
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import cities from '@/assets/cities/sk.json'
 
-export default function useSearch() {
+export default function useWeatherData() {
   const $q = useQuasar()
   const options = ref(cities)
   const weatherData = ref<TWeatherData>(MWeatherData.create())

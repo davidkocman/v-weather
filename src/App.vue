@@ -15,6 +15,7 @@ import AirPresureChart from '@/components/charts/AirPresureChart.vue'
 const weatherData = ref<TWeatherData | null>(null)
 const activeLocation = ref<string>('')
 const activeRegion = ref<string>('')
+const coordinates = ref<string[]>([])
 const theme = ref<string>('')
 const timeseries = ref<TTimeSeries[]>([])
 
@@ -28,6 +29,9 @@ function onActiveLocation(val: string) {
 }
 function onActiveRegion(val: string) {
   activeRegion.value = val
+}
+function onCoordinates(val: string[]) {
+  coordinates.value = val
 }
 
 watch(activeRegion, (value: string) => {
@@ -70,6 +74,7 @@ watch(activeRegion, (value: string) => {
           @weatherData="onWeatherData"
           @activeLocation="onActiveLocation"
           @activeRegion="onActiveRegion"
+          @coordinates="onCoordinates"
         />
         <template v-if="weatherData">
           <Now
@@ -77,6 +82,7 @@ watch(activeRegion, (value: string) => {
             :activeLocation="activeLocation"
             :activeRegion="activeRegion"
             :units="weatherData.properties.meta.units"
+            :coordinates="coordinates"
           />
           <div class="row justify-center q-mb-lg">
             <TemperatureChart :timeseries="timeseries" />

@@ -63,6 +63,8 @@ export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -127,6 +129,9 @@ export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
         },
         tooltip: {
           valueSuffix: '%',
+        },
+        dataGrouping: {
+          enabled: false,
         },
         maxPointWidth: 10,
         color: '#fad859',

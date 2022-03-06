@@ -37,86 +37,83 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
   }
 
   function steamPressure(hR: number, T: number): number {
-    return (hR / 100) * 6.105 * Math.exp((12.27 * T) / (237.7 + T))
+    return Math.round((hR / 100) * 6.105 * Math.exp((12.27 * T) / (237.7 + T)))
   }
 
   function getMinFeelTemp(): number[] {
     const minFeelTemp: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
-        minFeelTemp.push(
-          Math.round(
-            item.data.next_6_hours.details.air_temperature_min +
-              0.33 *
-                steamPressure(
-                  item.data.instant.details.relative_humidity,
-                  item.data.next_6_hours.details.air_temperature_min
-                ) -
-              0.7 * item.data.instant.details.wind_speed -
-              4
-          )
-        )
-        return minFeelTemp
-      }
-      minFeelTemp.push(
-        Math.round(
+        let minFTemp: number =
+          item.data.next_6_hours.details.air_temperature_min +
+          0.32 *
+            steamPressure(
+              item.data.instant.details.relative_humidity,
+              item.data.next_6_hours.details.air_temperature_min
+            ) -
+          0.7 * item.data.instant.details.wind_speed -
+          4
+        minFeelTemp.push(Math.round(minFTemp))
+      } else {
+        let minFTemp: number =
           item.data.instant.details.air_temperature +
-            0.33 *
-              steamPressure(
-                item.data.instant.details.relative_humidity,
-                item.data.instant.details.air_temperature
-              ) -
-            0.7 * item.data.instant.details.wind_speed -
-            4
-        )
-      )
+          0.32 *
+            steamPressure(
+              item.data.instant.details.relative_humidity,
+              item.data.instant.details.air_temperature
+            ) -
+          0.7 * item.data.instant.details.wind_speed -
+          4
+        minFeelTemp.push(Math.round(minFTemp))
+      }
     })
+
     return minFeelTemp
   }
 
   function getMaxFeelTemp(): number[] {
     const maxFeelTemp: number[] = []
+
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
-        maxFeelTemp.push(
-          Math.round(
-            item.data.next_6_hours.details.air_temperature_max +
-              0.33 *
-                steamPressure(
-                  item.data.instant.details.relative_humidity,
-                  item.data.next_6_hours.details.air_temperature_max
-                ) -
-              0.7 * item.data.instant.details.wind_speed -
-              4
-          )
-        )
-        return maxFeelTemp
-      }
-      maxFeelTemp.push(
-        Math.round(
+        let maxFTemp: number =
+          item.data.next_6_hours.details.air_temperature_max +
+          0.32 *
+            steamPressure(
+              item.data.instant.details.relative_humidity,
+              item.data.next_6_hours.details.air_temperature_max
+            ) -
+          0.7 * item.data.instant.details.wind_speed -
+          4
+        maxFeelTemp.push(Math.round(maxFTemp))
+      } else {
+        let maxFTemp: number =
           item.data.instant.details.air_temperature +
-            0.33 *
-              steamPressure(
-                item.data.instant.details.relative_humidity,
-                item.data.instant.details.air_temperature
-              ) -
-            0.7 * item.data.instant.details.wind_speed -
-            4
-        )
-      )
+          0.32 *
+            steamPressure(
+              item.data.instant.details.relative_humidity,
+              item.data.instant.details.air_temperature
+            ) -
+          0.7 * item.data.instant.details.wind_speed -
+          4
+        maxFeelTemp.push(Math.round(maxFTemp))
+      }
     })
+
     return maxFeelTemp
   }
 
   function getMinTemp(): number[] {
     const minTemp: number[] = []
+
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
         minTemp.push(item.data.next_6_hours.details.air_temperature_min)
-        return minTemp
+      } else {
+        minTemp.push(item.data.instant.details.air_temperature)
       }
-      minTemp.push(item.data.instant.details.air_temperature)
     })
+
     return minTemp
   }
 
@@ -125,10 +122,11 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
         maxTemp.push(item.data.next_6_hours.details.air_temperature_max)
-        return maxTemp
+      } else {
+        maxTemp.push(item.data.instant.details.air_temperature)
       }
-      maxTemp.push(item.data.instant.details.air_temperature)
     })
+
     return maxTemp
   }
 
@@ -151,6 +149,8 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -224,6 +224,9 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         tooltip: {
           valueSuffix: '°C',
         },
+        dataGrouping: {
+          enabled: false,
+        },
         color: '#ec644b',
       },
       {
@@ -232,6 +235,9 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         type: 'spline',
         zIndex: '5',
         marker: {
+          enabled: false,
+        },
+        dataGrouping: {
           enabled: false,
         },
         tooltip: {
@@ -246,6 +252,9 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         marker: {
           enabled: false,
         },
+        dataGrouping: {
+          enabled: false,
+        },
         tooltip: {
           valueSuffix: '°C',
         },
@@ -257,6 +266,9 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
         type: 'spline',
         zIndex: '5',
         marker: {
+          enabled: false,
+        },
+        dataGrouping: {
           enabled: false,
         },
         tooltip: {

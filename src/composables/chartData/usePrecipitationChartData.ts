@@ -45,10 +45,11 @@ export default function usePrecipitationChartData(
         precipitationAmount.push(
           item.data.next_6_hours.details.precipitation_amount
         )
-        return precipitationAmount
+      } else {
+        precipitationAmount.push(item.data.instant.details.air_temperature)
       }
-      precipitationAmount.push(item.data.instant.details.air_temperature)
     })
+
     return precipitationAmount
   }
 
@@ -71,6 +72,8 @@ export default function usePrecipitationChartData(
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -135,7 +138,9 @@ export default function usePrecipitationChartData(
         tooltip: {
           valueSuffix: 'mm',
         },
-        maxPointWidth: 10,
+        dataGrouping: {
+          enabled: false,
+        },
         color: '#006992',
       },
     ],

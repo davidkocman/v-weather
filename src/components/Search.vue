@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import useSearch from '@/composables/useSearch'
+import useWeatherData from '@/composables/useWeatherData'
 
-const emit = defineEmits(['weatherData', 'activeLocation', 'activeRegion'])
-const { options, model, filterFn, getWeatherData, weatherData } = useSearch()
+const emit = defineEmits([
+  'weatherData',
+  'activeLocation',
+  'activeRegion',
+  'coordinates',
+])
+const { options, model, filterFn, getWeatherData, weatherData } =
+  useWeatherData()
 
 watch(model, (value) => {
   if (value) {
     emit('activeLocation', value.label)
     emit('activeRegion', value.admin_name)
+    emit('coordinates', [value.lat, value.lng])
     getWeatherData(value)
   }
 })

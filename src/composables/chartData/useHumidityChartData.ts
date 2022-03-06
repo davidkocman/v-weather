@@ -63,6 +63,8 @@ export default function useHumidityChartData(timeseries: Ref<TTimeSeries[]>) {
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -123,6 +125,9 @@ export default function useHumidityChartData(timeseries: Ref<TTimeSeries[]>) {
         data: getRelativeHumidity(),
         type: 'column',
         marker: {
+          enabled: false,
+        },
+        dataGrouping: {
           enabled: false,
         },
         tooltip: {

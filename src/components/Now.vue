@@ -21,9 +21,17 @@ const props = defineProps({
     required: true,
     type: Object as PropType<TUnits>,
   },
+  coordinates: {
+    required: true,
+    type: Object as PropType<string[]>,
+  },
 })
 const { timeSeries } = toRefs(props)
 const { minTemp, maxTemp } = useFindMinMaxTemp(timeSeries)
+
+function saveLocation(value: string[]) {
+  console.log(value)
+}
 </script>
 <template>
   <div
@@ -33,6 +41,21 @@ const { minTemp, maxTemp } = useFindMinMaxTemp(timeSeries)
       <div class="col-auto">
         <div class="text-h4 text-weight-medium q-mb-l text-spacing-2">
           {{ activeLocation }}
+          <span>
+            <q-icon
+              color="orange-7"
+              name="add_location"
+              class="cursor-pointer"
+              @click="saveLocation(coordinates)"
+            >
+              <q-tooltip
+                transition-show="scale"
+                transition-hide="scale"
+                class="bg-primary text-body2"
+                >Uložit lokalitu</q-tooltip
+              >
+            </q-icon>
+          </span>
         </div>
         <div class="text-subtitle1 text-weight-regular text-grey-4">
           {{ activeRegion }} kraj

@@ -63,6 +63,8 @@ export default function useWindSpeedChartData(timeseries: Ref<TTimeSeries[]>) {
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -279,6 +281,9 @@ export default function useWindSpeedChartData(timeseries: Ref<TTimeSeries[]>) {
         data: getWindSpeed(),
         type: 'spline',
         marker: {
+          enabled: false,
+        },
+        dataGrouping: {
           enabled: false,
         },
         tooltip: {

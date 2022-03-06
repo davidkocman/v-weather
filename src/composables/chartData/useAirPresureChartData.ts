@@ -63,6 +63,8 @@ export default function useAirPresureChartData(timeseries: Ref<TTimeSeries[]>) {
     tooltip: {
       shared: true,
       crosshairs: true,
+      useHTML: true,
+      headerFormat: '<span style="font-size: 10px">{point.key}:00</span><br/>',
     },
     legend: {
       itemStyle: {
@@ -141,6 +143,9 @@ export default function useAirPresureChartData(timeseries: Ref<TTimeSeries[]>) {
         },
         tooltip: {
           valueSuffix: ' hPa',
+        },
+        dataGrouping: {
+          enabled: false,
         },
         zones: [
           {
