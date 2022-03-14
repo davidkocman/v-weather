@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import TWeatherData from '@/types/TWeatherData'
 import TTimeSeries from '@/types/TTimeSeries'
 import useGetTimeSeries from '@/composables/useGetTimeSeries'
+import useSavedLocations from '@/composables/useSavedLocations'
 import Search from '@/components/Search.vue'
 import Now from '@/components/Now.vue'
 import TemperatureChart from '@/components/charts/TemperatureChart.vue'
@@ -18,6 +19,8 @@ const activeRegion = ref<string>('')
 const coordinates = ref<string[]>([])
 const theme = ref<string>('')
 const timeseries = ref<TTimeSeries[]>([])
+
+const { hasSavedLocations } = useSavedLocations()
 
 function onWeatherData(data: TWeatherData) {
   weatherData.value = data
@@ -76,6 +79,13 @@ watch(activeRegion, (value: string) => {
           @activeRegion="onActiveRegion"
           @coordinates="onCoordinates"
         />
+        <q-btn
+          v-if="hasSavedLocations"
+          icon="place"
+          color="primary"
+          @click="open('right')"
+          class="fav-loc"
+        />
         <template v-if="weatherData">
           <Now
             :timeSeries="weatherData.properties.timeseries"
@@ -126,5 +136,10 @@ watch(activeRegion, (value: string) => {
     #243b55
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   justify-content: center;
+  .fav-loc {
+    position: fixed;
+    right: 10px;
+    top: 70px;
+  }
 }
 </style>

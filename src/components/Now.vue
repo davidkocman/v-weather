@@ -2,6 +2,7 @@
 import TTimeSeries from '@/types/TTimeSeries'
 import TUnits from '@/types/TUnits'
 import useFindMinMaxTemp from '@/composables/useFindMinMaxTemp'
+import useSavedLocations from '@/composables/useSavedLocations'
 import { PropType, toRefs } from 'vue'
 
 const props = defineProps({
@@ -28,10 +29,7 @@ const props = defineProps({
 })
 const { timeSeries } = toRefs(props)
 const { minTemp, maxTemp } = useFindMinMaxTemp(timeSeries)
-
-function saveLocation(value: string[]) {
-  console.log(value)
-}
+const { saveLocation } = useSavedLocations()
 </script>
 <template>
   <div
@@ -46,7 +44,7 @@ function saveLocation(value: string[]) {
               color="orange-7"
               name="add_location"
               class="cursor-pointer"
-              @click="saveLocation(coordinates)"
+              @click="saveLocation(coordinates, activeLocation)"
             >
               <q-tooltip
                 transition-show="scale"
