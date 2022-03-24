@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, reactive, toRefs } from 'vue'
 
 interface ILocation {
   lat: string
@@ -6,7 +6,10 @@ interface ILocation {
   title: string
 }
 
-const hasSavedLocations = ref<boolean>(false)
+const state = reactive({
+  hasSavedLocations: false,
+  savedLocations: [] as ILocation[],
+})
 
 export default function useSavedLocations() {
   function saveLocation(coordinates: string[], activeLocation: string): void {
@@ -30,19 +33,22 @@ export default function useSavedLocations() {
         storageValue.pop()
         storageValue.unshift(newLocation.value)
         localStorage.setItem('savedLocations', JSON.stringify(storageValue))
+        state.savedLocations = storageValue
         return
       }
       storageValue.unshift(newLocation.value)
       localStorage.setItem('savedLocations', JSON.stringify(storageValue))
+      state.savedLocations = storageValue
       return
     }
     storageValue.push(newLocation.value)
     localStorage.setItem('savedLocations', JSON.stringify(storageValue))
-    hasSavedLocations.value = true
+    state.savedLocations = storageValue
+    state.hasSavedLocations = true
   }
 
   return {
     saveLocation,
-    hasSavedLocations,
+    ...toRefs(state),
   }
 }

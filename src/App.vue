@@ -12,6 +12,7 @@ import CloudAreaFractionChart from '@/components/charts/CloudAreaFractionChart.v
 import WindSpeedChart from '@/components/charts/WindSpeedChart.vue'
 import HumidityChart from '@/components/charts/HumidityChart.vue'
 import AirPresureChart from '@/components/charts/AirPresureChart.vue'
+import SavedLocations from './components/SavedLocations.vue'
 
 const weatherData = ref<TWeatherData | null>(null)
 const activeLocation = ref<string>('')
@@ -79,13 +80,7 @@ watch(activeRegion, (value: string) => {
           @activeRegion="onActiveRegion"
           @coordinates="onCoordinates"
         />
-        <q-btn
-          v-if="hasSavedLocations"
-          icon="place"
-          color="primary"
-          @click="open('right')"
-          class="fav-loc"
-        />
+        <SavedLocations v-if="hasSavedLocations" />
         <template v-if="weatherData">
           <Now
             :timeSeries="weatherData.properties.timeseries"

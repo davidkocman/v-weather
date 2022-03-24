@@ -19,14 +19,15 @@ export default function useGetTimeSeries(data: TWeatherData) {
   for (let i: number = 1; i <= 7; i++) {
     timeMarks.forEach((mark: Date) => {
       day =
-        new Date(mark.setDate(mark.getDate() + i)).toISOString().split('.')[0] +
-        'Z' // strip miliseconds
-
+        new Date(mark.setUTCDate(mark.getDate() + i))
+          .toISOString()
+          .split('.')[0] + 'Z' // strip miliseconds
       result = data.properties.timeseries.find(
         ({ time }: { time: string }) => time === day
       ) as TTimeSeries // find specific timeseries
+
       series.value.push(result)
-      day = new Date(mark.setDate(mark.getDate() - i))
+      day = new Date(mark.setUTCDate(mark.getDate() - i))
     })
   }
 
