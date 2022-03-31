@@ -5,10 +5,10 @@ import TTimeSeries from '@/types/TTimeSeries'
 // Gets timeseries for next 7 days for specific time
 export default function useGetTimeSeries(data: TWeatherData) {
   const timeMarks: Date[] = [
-    new Date(new Date().setHours(1, 0, 0)),
-    new Date(new Date().setHours(7, 0, 0)),
-    new Date(new Date().setHours(13, 0, 0)),
-    new Date(new Date().setHours(19, 0, 0)),
+    new Date(new Date().setHours(2, 0, 0)),
+    new Date(new Date().setHours(8, 0, 0)),
+    new Date(new Date().setHours(14, 0, 0)),
+    new Date(new Date().setHours(20, 0, 0)),
   ]
 
   let day: Date | string = ''
@@ -22,6 +22,7 @@ export default function useGetTimeSeries(data: TWeatherData) {
         new Date(mark.setUTCDate(mark.getDate() + i))
           .toISOString()
           .split('.')[0] + 'Z' // strip miliseconds
+
       result = data.properties.timeseries.find(
         ({ time }: { time: string }) => time === day
       ) as TTimeSeries // find specific timeseries
