@@ -1,7 +1,7 @@
 import { ref, reactive, toRefs } from 'vue'
 
-/* Defining the shape of the object ILocation. */
-interface ILocation {
+/* Defining the shape of the object Location. */
+interface Location {
   lat: string
   lng: string
   title: string
@@ -10,7 +10,7 @@ interface ILocation {
 /* Defining the shape of the object State. */
 interface State {
   hasSavedLocations: boolean
-  savedLocations: ILocation[]
+  savedLocations: Location[]
 }
 
 /* Creating a reactive object that is of type State. */
@@ -25,7 +25,7 @@ const state = reactive<State>({
  */
 export default function useSavedLocations() {
   function saveLocation(coordinates: string[], activeLocation: string): void {
-    let newLocation = ref<ILocation>({
+    let newLocation = ref<Location>({
       lat: coordinates[0],
       lng: coordinates[1],
       title: activeLocation,
@@ -33,14 +33,21 @@ export default function useSavedLocations() {
     let storageValue = []
 
     if (localStorage.getItem('savedLocations')) {
+
+      /* Parsing the string that is stored in localStorage to an array of objects. */
       storageValue = JSON.parse(
         localStorage.getItem('savedLocations') as string
       )
+
+      /* Checking if the location is already saved. */
       if (
-        storageValue.some((e: ILocation) => e.title === newLocation.value.title)
+        storageValue.some((e: Location) => e.title === newLocation.value.title)
       ) {
         return
       }
+
+      /* Checking if the storageValue array has more than 2 items. If it does, it removes the last item
+      and adds the newLocation to the beginning of the array. */
       if (storageValue.length > 2) {
         storageValue.pop()
         storageValue.unshift(newLocation.value)
@@ -48,6 +55,7 @@ export default function useSavedLocations() {
         state.savedLocations = storageValue
         return
       }
+
       storageValue.unshift(newLocation.value)
       localStorage.setItem('savedLocations', JSON.stringify(storageValue))
       state.savedLocations = storageValue
