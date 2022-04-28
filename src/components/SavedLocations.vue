@@ -7,11 +7,14 @@ const { hasSavedLocations } = useSavedLocations()
 const dialog = ref<boolean>(false)
 const position = ref<positionType>('top')
 
+// A function that is called when the button is clicked. It sets the position of the dialog and sets
+// the dialog to true.
 function open(pos: positionType) {
   position.value = pos
   dialog.value = true
 }
 </script>
+
 <template>
   <q-btn
     v-if="hasSavedLocations"

@@ -22,6 +22,7 @@ const { timeseries } = toRefs(props)
  */
 const { chartOptions } = useCloudChartData(timeseries)
 </script>
+
 <template>
   <div class="col-11 col-md-6">
     <Chart :options="chartOptions" />

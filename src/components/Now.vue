@@ -27,10 +27,12 @@ const props = defineProps({
     type: Object as PropType<string[]>,
   },
 })
+
 const { timeSeries } = toRefs(props)
 const { minTemp, maxTemp } = useFindMinMaxTemp(timeSeries)
 const { saveLocation } = useSavedLocations()
 </script>
+
 <template>
   <div
     class="column justify-center items-center text-white text-center q-mb-lg q-mt-xl q-pt-xl"

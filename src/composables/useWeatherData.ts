@@ -4,12 +4,29 @@ import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import cities from '@/assets/cities/sk.json'
 
+/**
+ * It takes an input value, and returns a list of options that match the input value
+ * @returns The return statement is returning an object with the following properties:
+ * options: The options variable is a ref that is initialized with the cities array.
+ * model: The model variable is a ref that is initialized with null.
+ * filterFn: The filterFn function takes an input value, and returns a list of options that match the
+ * input value.
+ * getWeatherData: The getWeatherData function
+ */
 export default function useWeatherData() {
   const $q = useQuasar()
   const options = ref(cities)
   const weatherData = ref<TWeatherData>(MWeatherData.create())
   const model = ref<any>(null)
 
+  /**
+   * It takes an input value, and returns a list of options that match the input value
+   * @param {string} inputValue - The current value of the input field.
+   * @param {Function} doneFn - A function that takes a callback function as a parameter. The callback
+   * function should be called with the filtered options.
+   * @param {Function} abortFn - Function
+   * @returns the value of the cities array that have a label that matches the inputValue.
+   */
   function filterFn(inputValue: string, doneFn: Function, abortFn: Function) {
     if (inputValue.length < 1) {
       abortFn()
@@ -24,6 +41,11 @@ export default function useWeatherData() {
       })
     }, 300)
   }
+
+  /**
+   * It fetches the weather data from the met.no API and stores it in the weatherData variable
+   * @param {any} val - any - This is the value that is passed from the map component.
+   */
   async function getWeatherData(val: any) {
     $q.loading.show()
     try {

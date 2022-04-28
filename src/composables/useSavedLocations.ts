@@ -1,16 +1,28 @@
 import { ref, reactive, toRefs } from 'vue'
 
+/* Defining the shape of the object ILocation. */
 interface ILocation {
   lat: string
   lng: string
   title: string
 }
 
-const state = reactive({
+/* Defining the shape of the object State. */
+interface State {
+  hasSavedLocations: boolean
+  savedLocations: ILocation[]
+}
+
+/* Creating a reactive object that is of type State. */
+const state = reactive<State>({
   hasSavedLocations: false,
-  savedLocations: [] as ILocation[],
+  savedLocations: [],
 })
 
+/**
+ * It saves the location to localStorage and updates the state
+ * @returns An object with the saveLocation function and the state object.
+ */
 export default function useSavedLocations() {
   function saveLocation(coordinates: string[], activeLocation: string): void {
     let newLocation = ref<ILocation>({
@@ -41,6 +53,7 @@ export default function useSavedLocations() {
       state.savedLocations = storageValue
       return
     }
+
     storageValue.push(newLocation.value)
     localStorage.setItem('savedLocations', JSON.stringify(storageValue))
     state.savedLocations = storageValue

@@ -14,7 +14,7 @@ const props = defineProps({
  * 'timeseries' needs to be converted to reactive object, so I can use them inside composable function
  * - props is reactive object
  * - props.timeseries is a literal value (non-reactive)
- * */
+ */
 const { timeseries } = toRefs(props)
 
 /**
@@ -22,6 +22,7 @@ const { timeseries } = toRefs(props)
  */
 const { chartOptions } = useAirPresureChartData(timeseries)
 </script>
+
 <template>
   <div class="col-11 col-md-6">
     <Chart :options="chartOptions" />

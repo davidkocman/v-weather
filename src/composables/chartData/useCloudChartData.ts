@@ -2,6 +2,11 @@ import TTimeSeries from '@/types/TTimeSeries'
 import { computed, Ref } from 'vue'
 
 export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
+
+  /**
+   * It takes the time property of each item in the timeseries array and returns an array of hours
+   * @returns An array of hours from the timeseries data.
+   */
   function getHours() {
     const categories: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
@@ -11,6 +16,10 @@ export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
     return categories
   }
 
+  /**
+   * It takes the timeseries array and returns an array of categories
+   * @returns Array of strings
+   */
   function getCategories() {
     const weekday = [
       'Nedela',
@@ -25,17 +34,21 @@ export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(
         weekday[new Date(item.time).getDay()] +
-          '<br>' +
-          new Date(item.time).getDate() +
-          '.' +
-          (new Date(item.time).getMonth() + 1) +
-          '.'
+        '<br>' +
+        new Date(item.time).getDate() +
+        '.' +
+        (new Date(item.time).getMonth() + 1) +
+        '.'
       )
     })
 
     return categories
   }
 
+  /**
+   * It takes the cloud area fraction from the timeseries and returns it as an array
+   * @returns An array of cloud area fractions.
+   */
   function getCloudAreaFraction(): number[] {
     const cloudAreaFraction: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {

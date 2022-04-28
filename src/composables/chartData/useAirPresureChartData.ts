@@ -2,6 +2,11 @@ import TTimeSeries from '@/types/TTimeSeries'
 import { computed, Ref } from 'vue'
 
 export default function useAirPresureChartData(timeseries: Ref<TTimeSeries[]>) {
+
+  /**
+   * It takes the time property of each item in the timeseries array and returns an array of hours
+   * @returns An array of hours from the timeseries data.
+   */
   function getHours() {
     const categories: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
@@ -11,6 +16,10 @@ export default function useAirPresureChartData(timeseries: Ref<TTimeSeries[]>) {
     return categories
   }
 
+  /**
+   * It takes the timeseries array and creates a new array of categories
+   * @returns Array of strings
+   */
   function getCategories() {
     const weekday = [
       'Nedela',
@@ -25,17 +34,22 @@ export default function useAirPresureChartData(timeseries: Ref<TTimeSeries[]>) {
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(
         weekday[new Date(item.time).getDay()] +
-          '<br>' +
-          new Date(item.time).getDate() +
-          '.' +
-          (new Date(item.time).getMonth() + 1) +
-          '.'
+        '<br>' +
+        new Date(item.time).getDate() +
+        '.' +
+        (new Date(item.time).getMonth() + 1) +
+        '.'
       )
     })
 
     return categories
   }
 
+  /**
+   * It takes the `timeseries` object, loops through each item in the `value` array, and pushes the
+   * `air_pressure_at_sea_level` value into a new array
+   * @returns An array of numbers
+   */
   function getAirPresure(): number[] {
     const airPresure: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {

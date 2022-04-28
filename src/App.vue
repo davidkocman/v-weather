@@ -23,21 +23,31 @@ const timeseries = ref<TTimeSeries[]>([])
 
 const { hasSavedLocations } = useSavedLocations()
 
+// A function that is called when the `weatherData` is emitted from the `Search` component. It sets the
+// `weatherData` and `timeseries` refs.
 function onWeatherData(data: TWeatherData) {
   weatherData.value = data
   const { series } = useGetTimeSeries(data)
   timeseries.value = series.value
 }
+// A function that is called when the `activeLocation` is emitted from the `Search` component. It sets
+// the `activeLocation` ref.
 function onActiveLocation(val: string) {
   activeLocation.value = val
 }
+// A function that is called when the `activeRegion` is emitted from the `Search` component. It sets
+// the `activeRegion` ref.
 function onActiveRegion(val: string) {
   activeRegion.value = val
 }
+// A function that is called when the `coordinates` is emitted from the `Search` component. It sets the
+// `coordinates` ref.
 function onCoordinates(val: string[]) {
   coordinates.value = val
 }
 
+// Watching the `activeRegion` ref and when it changes it sets the `theme` ref to a value based on the
+// `activeRegion` value.
 watch(activeRegion, (value: string) => {
   switch (value) {
     case 'Bratislavský':
