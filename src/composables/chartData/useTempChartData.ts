@@ -2,6 +2,11 @@ import TTimeSeries from '@/types/TTimeSeries'
 import { computed, Ref } from 'vue'
 
 export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
+
+  /**
+   * It takes the time property of each item in the timeseries array and returns an array of hours
+   * @returns An array of hours from the timeseries data.
+   */
   function getHours() {
     const categories: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
@@ -11,6 +16,10 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     return categories
   }
 
+  /**
+   * It takes the timeseries array and returns an array of categories
+   * @returns Array of strings
+   */
   function getCategories() {
     const weekday = [
       'Nedela',
@@ -25,43 +34,54 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(
         weekday[new Date(item.time).getDay()] +
-          '<br>' +
-          new Date(item.time).getDate() +
-          '.' +
-          (new Date(item.time).getMonth() + 1) +
-          '.'
+        '<br>' +
+        new Date(item.time).getDate() +
+        '.' +
+        (new Date(item.time).getMonth() + 1) +
+        '.'
       )
     })
 
     return categories
   }
 
+  /**
+   * It takes two numbers as arguments, and returns a number
+   * @param {number} hR - Relative humidity in %
+   * @param {number} T - Temperature in degrees Celsius
+   * @returns The steam pressure in Pascal
+   */
   function steamPressure(hR: number, T: number): number {
     return Math.round((hR / 100) * 6.105 * Math.exp((12.27 * T) / (237.7 + T)))
   }
 
+  /**
+   * It takes the air temperature and relative humidity from the API and calculates the minimum feel
+   * temperature for the next 6 hours
+   * @returns An array of numbers
+   */
   function getMinFeelTemp(): number[] {
     const minFeelTemp: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
-        let minFTemp: number =
+        const minFTemp: number =
           item.data.next_6_hours.details.air_temperature_min +
           0.32 *
-            steamPressure(
-              item.data.instant.details.relative_humidity,
-              item.data.next_6_hours.details.air_temperature_min
-            ) -
+          steamPressure(
+            item.data.instant.details.relative_humidity,
+            item.data.next_6_hours.details.air_temperature_min
+          ) -
           0.7 * item.data.instant.details.wind_speed -
           4
         minFeelTemp.push(Math.round(minFTemp))
       } else {
-        let minFTemp: number =
+        const minFTemp: number =
           item.data.instant.details.air_temperature +
           0.32 *
-            steamPressure(
-              item.data.instant.details.relative_humidity,
-              item.data.instant.details.air_temperature
-            ) -
+          steamPressure(
+            item.data.instant.details.relative_humidity,
+            item.data.instant.details.air_temperature
+          ) -
           0.7 * item.data.instant.details.wind_speed -
           4
         minFeelTemp.push(Math.round(minFTemp))
@@ -76,24 +96,24 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
 
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
-        let maxFTemp: number =
+        const maxFTemp: number =
           item.data.next_6_hours.details.air_temperature_max +
           0.32 *
-            steamPressure(
-              item.data.instant.details.relative_humidity,
-              item.data.next_6_hours.details.air_temperature_max
-            ) -
+          steamPressure(
+            item.data.instant.details.relative_humidity,
+            item.data.next_6_hours.details.air_temperature_max
+          ) -
           0.7 * item.data.instant.details.wind_speed -
           4
         maxFeelTemp.push(Math.round(maxFTemp))
       } else {
-        let maxFTemp: number =
+        const maxFTemp: number =
           item.data.instant.details.air_temperature +
           0.32 *
-            steamPressure(
-              item.data.instant.details.relative_humidity,
-              item.data.instant.details.air_temperature
-            ) -
+          steamPressure(
+            item.data.instant.details.relative_humidity,
+            item.data.instant.details.air_temperature
+          ) -
           0.7 * item.data.instant.details.wind_speed -
           4
         maxFeelTemp.push(Math.round(maxFTemp))
@@ -103,6 +123,11 @@ export default function useTempChartData(timeseries: Ref<TTimeSeries[]>) {
     return maxFeelTemp
   }
 
+  /**
+   * It loops through the timeseries array and pushes the minimum temperature for each hour into a new
+   * array
+   * @returns An array of numbers
+   */
   function getMinTemp(): number[] {
     const minTemp: number[] = []
 

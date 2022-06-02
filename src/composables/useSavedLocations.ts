@@ -25,7 +25,7 @@ const state = reactive<State>({
  */
 export default function useSavedLocations() {
   function saveLocation(coordinates: string[], activeLocation: string): void {
-    let newLocation = ref<Location>({
+    const newLocation = ref<Location>({
       lat: coordinates[0],
       lng: coordinates[1],
       title: activeLocation,
@@ -70,6 +70,8 @@ export default function useSavedLocations() {
 
   return {
     saveLocation,
+    /* A function that is provided by Vue. It is used to convert a reactive object into a plain object
+    with reactive properties. */
     ...toRefs(state),
   }
 }

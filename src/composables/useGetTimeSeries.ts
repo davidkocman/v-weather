@@ -21,7 +21,7 @@ export default function useGetTimeSeries(data: TWeatherData) {
   const series = ref<TTimeSeries[]>([])
 
   // loop to get next 7 days
-  for (let i: number = 1; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
     timeMarks.forEach((mark: Date) => {
       day =
         new Date(mark.setUTCDate(mark.getDate() + i))

@@ -11,7 +11,7 @@ const emit = defineEmits([
 const { options, model, filterFn, getWeatherData, weatherData } =
   useWeatherData()
 
-watch(model, (value) => {
+watch(model, (value): void => {
   if (value) {
     emit('activeLocation', value.label)
     emit('activeRegion', value.admin_name)
@@ -19,7 +19,7 @@ watch(model, (value) => {
     getWeatherData(value)
   }
 })
-watch(weatherData, (value) => {
+watch(weatherData, (value): void => {
   emit('weatherData', value)
 })
 </script>
@@ -27,24 +27,9 @@ watch(weatherData, (value) => {
 <template>
   <div class="row q-px-md fixed-top search-location">
     <div class="col">
-      <q-select
-        v-model="model"
-        borderless
-        clearable
-        dark
-        hide-dropdown-icon
-        input-debounce="300"
-        label="Lokalita"
-        label-color="white"
-        :options="options"
-        option-value="value"
-        transition-show="fade"
-        transition-hide="fade"
-        use-input
-        @filter="filterFn"
-        @focus="model = ''"
-        @keyup.enter.native="($event.target as HTMLElement).blur()"
-      >
+      <q-select v-model="model" borderless clearable dark hide-dropdown-icon input-debounce="300" label="Lokalita"
+        label-color="white" :options="options" option-value="value" transition-show="fade" transition-hide="fade"
+        use-input @filter="filterFn" @focus="model: string = ''" @keyup.enter="($event.target as HTMLElement).blur()">
         <template #no-option>
           <q-item>
             <q-item-section class="text-grey">No results</q-item-section>

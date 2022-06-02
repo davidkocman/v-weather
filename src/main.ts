@@ -1,16 +1,16 @@
-import { createApp } from "vue";
-import { Quasar, Loading } from "quasar";
+import { createApp } from 'vue'
+import { Quasar, Loading } from 'quasar'
 
 // Import icon libraries
-import "@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css";
-import "@quasar/extras/material-icons/material-icons.css";
+import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css'
+import '@quasar/extras/material-icons/material-icons.css'
 
 // Import Quasar css
-import "quasar/src/css/index.sass";
+import 'quasar/src/css/index.sass'
 
-import App from "./App.vue";
+import App from './App.vue'
 
-const myApp = createApp(App);
+const myApp = createApp(App)
 
 myApp.use(Quasar, {
   plugins: {
@@ -26,14 +26,14 @@ myApp.use(Quasar, {
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      "roboto-font-latin-ext", // optional, you are not bound to it
-      "material-icons", // optional, you are not bound to it
+      'roboto-font-latin-ext', // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       config: {
         loading: {
-          spinner: "QSpinner",
+          spinner: 'QSpinner',
         },
       },
 
@@ -48,9 +48,9 @@ myApp.use(Quasar, {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Loading"],
+      plugins: ['Loading'],
     },
   },
-});
+})
 
-myApp.mount("#app");
+myApp.mount('#app')

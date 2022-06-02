@@ -1,5 +1,6 @@
 import TWeatherData from '@/types/TWeatherData'
 import MWeatherData from '@/model/MWeatherData'
+import TModel from '@/types/TModel'
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import cities from '@/assets/cities/sk.json'
@@ -17,7 +18,7 @@ export default function useWeatherData() {
   const $q = useQuasar()
   const options = ref(cities)
   const weatherData = ref<TWeatherData>(MWeatherData.create())
-  const model = ref<any>(null)
+  const model = ref<TModel>()
 
   /**
    * It takes an input value, and returns a list of options that match the input value
@@ -27,7 +28,7 @@ export default function useWeatherData() {
    * @param {Function} abortFn - Function
    * @returns the value of the cities array that have a label that matches the inputValue.
    */
-  function filterFn(inputValue: string, doneFn: Function, abortFn: Function) {
+  function filterFn(inputValue: string, doneFn: Function, abortFn: Function): void {
     if (inputValue.length < 1) {
       abortFn()
       return
@@ -44,9 +45,9 @@ export default function useWeatherData() {
 
   /**
    * It fetches the weather data from the met.no API and stores it in the weatherData variable
-   * @param {any} val - any - This is the value that is passed from the map component.
+   * @param {TModel} val - TModel - this is the type of the parameter that is passed to the function.
    */
-  async function getWeatherData(val: any) {
+  async function getWeatherData(val: TModel) {
     $q.loading.show()
     try {
       const response = await fetch(

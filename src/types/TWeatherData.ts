@@ -1,4 +1,4 @@
-import TTimeSeries from "./TTimeSeries"
+import TTimeSeries from './TTimeSeries'
 export default interface TWeatherData {
   type: string
   geometry: {
