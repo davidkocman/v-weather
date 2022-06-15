@@ -33,16 +33,11 @@ export default function useSavedLocations() {
     let storageValue = []
 
     if (localStorage.getItem('savedLocations')) {
-
       /* Parsing the string that is stored in localStorage to an array of objects. */
-      storageValue = JSON.parse(
-        localStorage.getItem('savedLocations') as string
-      )
+      storageValue = JSON.parse(localStorage.getItem('savedLocations') as string)
 
       /* Checking if the location is already saved. */
-      if (
-        storageValue.some((e: Location) => e.title === newLocation.value.title)
-      ) {
+      if (storageValue.some((e: Location) => e.title === newLocation.value.title)) {
         return
       }
 
@@ -56,12 +51,14 @@ export default function useSavedLocations() {
         return
       }
 
+      /* Adding the newLocation to the beginning of the array and then saving it to localStorage. */
       storageValue.unshift(newLocation.value)
       localStorage.setItem('savedLocations', JSON.stringify(storageValue))
       state.savedLocations = storageValue
       return
     }
 
+    /* Adding the newLocation to the storageValue array and then saving it to localStorage. */
     storageValue.push(newLocation.value)
     localStorage.setItem('savedLocations', JSON.stringify(storageValue))
     state.savedLocations = storageValue

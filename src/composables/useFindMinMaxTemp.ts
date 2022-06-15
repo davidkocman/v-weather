@@ -8,7 +8,6 @@ import TTimeSeries from '@/types/TTimeSeries'
  * @returns An object with two computed properties.
  */
 export default function useFindMinMaxTemp(timeseries: Ref<TTimeSeries[]>) {
-
   /* Getting the current date in ISO format and splitting it at the 'T' character. */
   const dateIsoString: string = new Date(new Date()).toISOString().split('T')[0]
 
@@ -22,9 +21,7 @@ export default function useFindMinMaxTemp(timeseries: Ref<TTimeSeries[]>) {
     })
     return todaySeries.reduce(
       (min, p: TTimeSeries) =>
-        p.data.instant.details.air_temperature < min
-          ? p.data.instant.details.air_temperature
-          : min,
+        p.data.instant.details.air_temperature < min ? p.data.instant.details.air_temperature : min,
       todaySeries[0].data.instant.details.air_temperature
     )
   })
@@ -38,10 +35,7 @@ export default function useFindMinMaxTemp(timeseries: Ref<TTimeSeries[]>) {
       }
     })
     return todaySeries.reduce(
-      (max, p) =>
-        p.data.instant.details.air_temperature > max
-          ? p.data.instant.details.air_temperature
-          : max,
+      (max, p) => (p.data.instant.details.air_temperature > max ? p.data.instant.details.air_temperature : max),
       todaySeries[0].data.instant.details.air_temperature
     )
   })

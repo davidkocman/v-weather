@@ -116,9 +116,7 @@ watch(activeRegion, (value: string) => {
           <div class="column text-center text-white">
             <div class="col">
               <div class="text-h2 text-weight-thin">Počasie</div>
-              <div class="text-caption text-weight-thin">
-                zdroj dát: Meteorologisk Institutt (met.no)
-              </div>
+              <div class="text-caption text-weight-thin">zdroj dát: Meteorologisk Institutt (met.no)</div>
             </div>
           </div>
         </template>
@@ -130,11 +128,7 @@ watch(activeRegion, (value: string) => {
 <style lang="scss">
 .q-page {
   background: #141e30; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to top,
-    #141e30,
-    #243b55
-  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top, #141e30, #243b55); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to top,
     #141e30,

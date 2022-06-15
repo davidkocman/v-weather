@@ -2,7 +2,6 @@ import TTimeSeries from '@/types/TTimeSeries'
 import { computed, Ref } from 'vue'
 
 export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
-
   /**
    * It takes the time property of each item in the timeseries array and returns an array of hours
    * @returns An array of hours from the timeseries data.
@@ -21,24 +20,16 @@ export default function useCloudChartData(timeseries: Ref<TTimeSeries[]>) {
    * @returns Array of strings
    */
   function getCategories() {
-    const weekday = [
-      'Nedela',
-      'Pondelok',
-      'Utorok',
-      'Streda',
-      'Štvrtok',
-      'Piatok',
-      'Sobota',
-    ]
+    const weekday = ['Nedela', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota']
     const categories: string[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(
         weekday[new Date(item.time).getDay()] +
-        '<br>' +
-        new Date(item.time).getDate() +
-        '.' +
-        (new Date(item.time).getMonth() + 1) +
-        '.'
+          '<br>' +
+          new Date(item.time).getDate() +
+          '.' +
+          (new Date(item.time).getMonth() + 1) +
+          '.'
       )
     })
 

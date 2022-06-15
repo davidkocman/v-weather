@@ -28,7 +28,7 @@ export default function useWeatherData() {
    * @param {Function} abortFn - Function
    * @returns the value of the cities array that have a label that matches the inputValue.
    */
-  function filterFn(inputValue: string, doneFn: Function, abortFn: Function): void {
+  function filterFn(inputValue: string, doneFn: any, abortFn: any): void {
     if (inputValue.length < 1) {
       abortFn()
       return
@@ -36,9 +36,7 @@ export default function useWeatherData() {
     setTimeout(() => {
       doneFn(() => {
         const needle = inputValue.toLowerCase()
-        options.value = cities.filter(
-          (v) => v.label.toLowerCase().indexOf(needle) > -1
-        )
+        options.value = cities.filter((v) => v.label.toLowerCase().indexOf(needle) > -1)
       })
     }, 300)
   }

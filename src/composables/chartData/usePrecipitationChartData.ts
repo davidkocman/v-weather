@@ -1,9 +1,7 @@
 import TTimeSeries from '@/types/TTimeSeries'
 import { computed, Ref } from 'vue'
 
-export default function usePrecipitationChartData(
-  timeseries: Ref<TTimeSeries[]>
-) {
+export default function usePrecipitationChartData(timeseries: Ref<TTimeSeries[]>) {
   function getHours() {
     const categories: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
@@ -14,15 +12,7 @@ export default function usePrecipitationChartData(
   }
 
   function getCategories() {
-    const weekday = [
-      'Nedela',
-      'Pondelok',
-      'Utorok',
-      'Streda',
-      'Štvrtok',
-      'Piatok',
-      'Sobota',
-    ]
+    const weekday = ['Nedela', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota']
     const categories: string[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(
@@ -42,9 +32,7 @@ export default function usePrecipitationChartData(
     const precipitationAmount: number[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       if (item.data.next_6_hours) {
-        precipitationAmount.push(
-          item.data.next_6_hours.details.precipitation_amount
-        )
+        precipitationAmount.push(item.data.next_6_hours.details.precipitation_amount)
       } else {
         precipitationAmount.push(item.data.instant.details.air_temperature)
       }

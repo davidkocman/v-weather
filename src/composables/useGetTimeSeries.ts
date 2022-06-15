@@ -23,14 +23,9 @@ export default function useGetTimeSeries(data: TWeatherData) {
   // loop to get next 7 days
   for (let i = 1; i <= 7; i++) {
     timeMarks.forEach((mark: Date) => {
-      day =
-        new Date(mark.setUTCDate(mark.getDate() + i))
-          .toISOString()
-          .split('.')[0] + 'Z' // strip miliseconds
+      day = new Date(mark.setUTCDate(mark.getDate() + i)).toISOString().split('.')[0] + 'Z' // strip miliseconds
 
-      result = data.properties.timeseries.find(
-        ({ time }: { time: string }) => time === day
-      ) as TTimeSeries // find specific timeseries
+      result = data.properties.timeseries.find(({ time }: { time: string }) => time === day) as TTimeSeries // find specific timeseries
 
       series.value.push(result)
       day = new Date(mark.setUTCDate(mark.getDate() - i))

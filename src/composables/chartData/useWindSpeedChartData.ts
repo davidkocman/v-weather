@@ -12,15 +12,7 @@ export default function useWindSpeedChartData(timeseries: Ref<TTimeSeries[]>) {
   }
 
   function getCategories() {
-    const weekday = [
-      'Nedela',
-      'Pondelok',
-      'Utorok',
-      'Streda',
-      'Štvrtok',
-      'Piatok',
-      'Sobota',
-    ]
+    const weekday = ['Nedela', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota']
     const categories: string[] = []
     timeseries.value.forEach((item: TTimeSeries) => {
       categories.push(

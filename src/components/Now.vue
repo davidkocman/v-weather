@@ -34,9 +34,7 @@ const { saveLocation } = useSavedLocations()
 </script>
 
 <template>
-  <div
-    class="column justify-center items-center text-white text-center q-mb-lg q-mt-xl q-pt-xl"
-  >
+  <div class="column justify-center items-center text-white text-center q-mb-lg q-mt-xl q-pt-xl">
     <div class="row">
       <div class="col-auto">
         <div class="text-h4 text-weight-medium q-mb-l text-spacing-2">
@@ -48,28 +46,19 @@ const { saveLocation } = useSavedLocations()
               class="cursor-pointer"
               @click="saveLocation(coordinates, activeLocation)"
             >
-              <q-tooltip
-                transition-show="scale"
-                transition-hide="scale"
-                class="bg-primary text-body2"
+              <q-tooltip transition-show="scale" transition-hide="scale" class="bg-primary text-body2"
                 >Uložit lokalitu</q-tooltip
               >
             </q-icon>
           </span>
         </div>
-        <div class="text-subtitle1 text-weight-regular text-grey-4">
-          {{ activeRegion }} kraj
-        </div>
+        <div class="text-subtitle1 text-weight-regular text-grey-4">{{ activeRegion }} kraj</div>
       </div>
     </div>
     <div class="row justify-center items-center q-mb-md">
       <q-img
         class="col-auto q-mr-5"
-        :src="
-          '/images/weathericons/' +
-          timeSeries[0].data.next_1_hours.summary.symbol_code +
-          '.svg'
-        "
+        :src="'/images/weathericons/' + timeSeries[0].data.next_1_hours.summary.symbol_code + '.svg'"
         width="160px"
         height="160px"
       />
@@ -77,24 +66,14 @@ const { saveLocation } = useSavedLocations()
         <span class="text-h1 text-weight-bold">{{
           Math.round(timeSeries[0].data.instant.details.air_temperature)
         }}</span>
-        <span class="text-h4 relative-position degree text-weight-bold q-ml-xs"
-          >&deg;C</span
-        >
+        <span class="text-h4 relative-position degree text-weight-bold q-ml-xs">&deg;C</span>
         <div class="min-max absolute text-subtitle1">
           <div class="max row justify-between items-center">
-            <q-icon
-              color="orange-7"
-              name="north"
-              title="Najvyššia teplota"
-            ></q-icon>
+            <q-icon color="orange-7" name="north" title="Najvyššia teplota"></q-icon>
             <span class="current-temp">{{ Math.round(maxTemp) }}&deg;</span>
           </div>
           <div class="min row justify-between items-center">
-            <q-icon
-              color="blue-7"
-              name="south"
-              title="Najnižšia teplota"
-            ></q-icon>
+            <q-icon color="blue-7" name="south" title="Najnižšia teplota"></q-icon>
             <span>{{ Math.round(minTemp) }}&deg;</span>
           </div>
         </div>
@@ -102,65 +81,34 @@ const { saveLocation } = useSavedLocations()
     </div>
     <div class="row justify-center">
       <div class="row items-center q-mr-sm">
-        <q-icon
-          color="blue-7"
-          name="air"
-          title="Rýchlosť vetra"
-          style="font-size: 1.5em"
-        ></q-icon>
+        <q-icon color="blue-7" name="air" title="Rýchlosť vetra" style="font-size: 1.5em"></q-icon>
         <span class="text-subtitle1 q-mr-xs">{{
-          Math.round(timeSeries[0].data.instant.details.wind_speed) +
-          units.wind_speed
+          Math.round(timeSeries[0].data.instant.details.wind_speed) + units.wind_speed
         }}</span>
         <div class="compass relative-position">
           <span
             class="arrow"
             :style="{
-              transform:
-                'rotate(' +
-                Math.round(
-                  timeSeries[0].data.instant.details.wind_from_direction
-                ) +
-                'deg)',
+              transform: 'rotate(' + Math.round(timeSeries[0].data.instant.details.wind_from_direction) + 'deg)',
             }"
           ></span>
         </div>
       </div>
       <div class="row items-center q-mr-sm">
-        <q-icon
-          color="blue-7"
-          name="water_drop"
-          title="Relatívna vlhkosť"
-          style="font-size: 1.5em"
-        ></q-icon>
+        <q-icon color="blue-7" name="water_drop" title="Relatívna vlhkosť" style="font-size: 1.5em"></q-icon>
         <span class="text-subtitle1">{{
-          Math.round(timeSeries[0].data.instant.details.relative_humidity) +
-          units.relative_humidity
+          Math.round(timeSeries[0].data.instant.details.relative_humidity) + units.relative_humidity
         }}</span>
       </div>
       <div class="row items-center q-mr-sm">
         <span class="text-subtitle1">
-          <q-icon
-            color="blue-7"
-            name="speed"
-            title="Tlak vzduchu"
-            style="font-size: 1.5em"
-          ></q-icon>
-          {{
-            Math.round(
-              timeSeries[0].data.instant.details.air_pressure_at_sea_level
-            )
-          }}
+          <q-icon color="blue-7" name="speed" title="Tlak vzduchu" style="font-size: 1.5em"></q-icon>
+          {{ Math.round(timeSeries[0].data.instant.details.air_pressure_at_sea_level) }}
           {{ units.air_pressure_at_sea_level }}
         </span>
       </div>
       <div class="row items-center q-mr-sm">
-        <span class="text-subtitle1"
-          >UV:
-          {{
-            timeSeries[0].data.instant.details.ultraviolet_index_clear_sky
-          }}</span
-        >
+        <span class="text-subtitle1">UV: {{ timeSeries[0].data.instant.details.ultraviolet_index_clear_sky }}</span>
       </div>
     </div>
   </div>
